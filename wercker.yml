@@ -1,0 +1,42 @@
+box:
+  id: shufo/terraform
+  cmd: /bin/sh
+no-response-timeout: 45
+build:
+  steps:
+    - script:
+        name: Terraform remote config
+        code: terraform remote config -backend=S3 -backend-config="bucket=example.terraform" -backend-config="key=example.development.tfstate" -backend-config="region=ap-northeast-1" -backend-config="encrypt=1"
+    - script:
+        name: Terraform validate
+        code: terraform validate
+    - script:
+        name: Terraform plan
+        code: terraform plan
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: example-dev
+        username: Wercker CI
+        branch: master
+deploy:
+  development:
+    - script:
+        name: Terraform remote config
+        code: terraform remote config -backend=S3 -backend-config="bucket=example.terraform" -backend-config="key=example.development.tfstate" -backend-config="region=ap-northeast-1" -backend-config="encrypt=1"
+    - script:
+        name: Terraform apply
+        code: terraform apply
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: example-dev
+        username: Wercker CI
+        branch: master
+  destroy:
+    - script:
+        name: Terraform remote config
+        code: terraform remote config -backend=S3 -backend-config="bucket=example.terraform" -backend-config="key=example.development.tfstate" -backend-config="region=ap-northeast-1" -backend-config="encrypt=1"
+    - script:
+        name: Destroy example-dev
+        code: terraform destroy -force

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "nginx",
+    "image": "nginx:alpine",
+    "cpu": 200,
+    "memory": 200,
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 80
+      }
+    ],
+    "mountPoints": [
+        {
+            "sourceVolume": "nginx_conf",
+            "containerPath": "/etc/nginx/nginx.conf",
+            "readOnly": false
+        }
+    ],
+    "links": [
+        "app:app"
+    ]
+  },
+  {
+    "name": "app",
+    "image": "${docker_repository}:latest",
+    "cpu": 500,
+    "memory": 500,
+    "essential": true,
+    "environment": [
+        {
+            "name": "MYSQL_HOST",
+            "value": "${mysql_endpoint}"
+        },
+        {
+            "name": "REDIS_HOST",
+            "value": "${redis_endpoint}"
+        }
+    ]
+  }
+]

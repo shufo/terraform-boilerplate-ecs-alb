@@ -1,0 +1,29 @@
+[
+  {
+    "name": "migrate",
+    "image": "${docker_repository}:latest",
+    "cpu": 200,
+    "memory": 200,
+    "entryPoint": ["/bin/sh"],
+    "command": ["-c", "mix ecto.migrate"],
+    "essential": true,
+    "environment": [
+        {
+            "name": "MYSQL_HOST",
+            "value": "${mysql_endpoint}"
+        },
+        {
+            "name": "REDIS_HOST",
+            "value": "${redis_endpoint}"
+        }
+    ],
+    "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+            "awslogs-group": "${project}-${environment}-migrate",
+            "awslogs-region": "${region}",
+            "awslogs-stream-prefix": "migrate"
+        }
+    }
+  }
+]
