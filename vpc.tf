@@ -14,7 +14,7 @@ resource "aws_vpc" "main" {
 }
 
 /**
- * Internate gateway for main VPC
+ * Internet gateway for main VPC
  */
 resource "aws_internet_gateway" "gw" {
     vpc_id = "${aws_vpc.main.id}"
