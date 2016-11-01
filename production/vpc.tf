@@ -3,7 +3,7 @@
  */
 resource "aws_subnet" "primary" {
     vpc_id = "${data.terraform_remote_state.super_state.vpc_id}"
-    cidr_block = "172.31.0.0/20"
+    cidr_block = "172.31.32.0/20"
     availability_zone = "${data.aws_availability_zones.available.names[0]}"
     map_public_ip_on_launch = true
     tags {
@@ -16,7 +16,7 @@ resource "aws_subnet" "primary" {
  */
 resource "aws_subnet" "secondary" {
     vpc_id = "${data.terraform_remote_state.super_state.vpc_id}"
-    cidr_block = "172.31.16.0/20"
+    cidr_block = "172.31.48.0/20"
     availability_zone = "${data.aws_availability_zones.available.names[1]}"
     map_public_ip_on_launch = true
     tags {
