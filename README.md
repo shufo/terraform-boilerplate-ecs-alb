@@ -38,7 +38,7 @@
 
 `variables.tf`
 
-```terraform
+```hcl
 # A project name
 variable "project" {
   default = "example"
@@ -99,7 +99,7 @@ cd development
 
 `development/variables.tf`
 
-```terraform
+```hcl
 # A project name
 variable "project" {
   default = "example"
@@ -169,7 +169,7 @@ cd production
 
 `production/variables.tf`
 
-```terraform
+```hcl
 # A project name
 variable "project" {
   default = "example"
